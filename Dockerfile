@@ -37,7 +37,8 @@ RUN \
 	protobuf-c-dev \
 	sqlite-dev \
 	taglib-dev \
-	tar && \
+	tar \
+	git && \
  apk add --no-cache \
 	--repository http://nl.alpinelinux.org/alpine/edge/testing \
 	libantlr3c-dev \
@@ -53,13 +54,7 @@ RUN \
  curl -o \
  /tmp/source/antlr-3.4-complete.jar -L \
 	http://www.antlr3.org/download/antlr-3.4-complete.jar && \
- DAAPD_VER=$(curl -sX GET "https://api.github.com/repos/ejurgensen/forked-daapd/releases/latest" \
-	| awk '/tag_name/{print $4;exit}' FS='[""]') && \
- curl -o \
- /tmp/source/forked.tar.gz -L \
-	"https://github.com/ejurgensen/forked-daapd/archive/${DAAPD_VER}.tar.gz" && \
- tar xf /tmp/source/forked.tar.gz -C \
-	/tmp/source/forked-daapd --strip-components=1 && \
+ git clone --depth 1 https://github.com/richardhopton/forked-daapd.git /tmp/source/forked-daapd && \
  export PATH="/tmp/source:$PATH" && \
  cd /tmp/source/forked-daapd && \
  autoreconf -i -v && \
